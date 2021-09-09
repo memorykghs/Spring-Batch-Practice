@@ -10,8 +10,8 @@ public class BookInfoDto {
     @JsonProperty("BookName")
     private String bookName;
 
-    @JsonProperty("Author")
-    private String author;
+    @JsonProperty("AuthorName")
+    private String authorName;
 
     @JsonProperty("Category")
     private String category;

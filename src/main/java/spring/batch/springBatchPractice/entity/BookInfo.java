@@ -24,9 +24,6 @@ public class BookInfo implements Serializable {
     @Column(name = "AUTHOR_ID")
     private String authorId;
 
-    @Column(name = "TYPE")
-    private String type;
-
     @Column(name = "CATEGORY")
     private String category;
 
