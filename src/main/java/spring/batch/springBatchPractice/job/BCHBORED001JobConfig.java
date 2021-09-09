@@ -85,11 +85,19 @@ public class BCHBORED001JobConfig {
      * @return
      */
     @Bean("fileReaderStep")
-    private Step fileReaderStep(ItemReader<BookInfoDto> itemReader, BCH001Processor process, ItemWriter<BsrResvResidual> itemWriter,
+    private Step fileReaderStep(ItemReader<BookInfoDto> itemReader, BCH001Processor process, ItemWriter<BookInfoDto> itemWriter,
             JpaTransactionManager jpaTransactionManager) {
-        return stepBuilderFactory.get("BCH001Step1").transactionManager(jpaTransactionManager).<BookInfoDto, BookInfoDto> chunk(FETCH_SIZE)
-                .reader(itemReader).faultTolerant().skip(Exception.class).skipLimit(Integer.MAX_VALUE).writer(itemWriter)
-                .listener(new BCHBORED001StepListener()).listener(new BCHBORED001ReaderListener()).build();
+        return stepBuilderFactory.get("BCH001Step1")
+                .transactionManager(jpaTransactionManager)
+                .<BookInfoDto, BookInfoDto> chunk(FETCH_SIZE)
+                .reader(itemReader)
+                .faultTolerant()
+                .skip(Exception.class)
+                .skipLimit(Integer.MAX_VALUE)
+                .writer(itemWriter)
+                .listener(new BCHBORED001StepListener())
+                .listener(new BCHBORED001ReaderListener())
+                .build();
     }
 
     /**
@@ -98,8 +106,11 @@ public class BCHBORED001JobConfig {
      */
     @Bean
     public ItemReader<BookInfoDto> getItemReader() {
-        return new FlatFileItemReaderBuilder<BookInfoDto>().name("fileReader").resource(new ClassPathResource("/excel/書單.csv"))
-                .linesToSkip(1).lineMapper(getBookInfoLineMapper()).build();
+        return new FlatFileItemReaderBuilder<BookInfoDto>().name("fileReader")
+                .resource(new ClassPathResource("/excel/書單.csv"))
+                .linesToSkip(1)
+                .lineMapper(getBookInfoLineMapper())
+                .build();
     }
 
     /**
@@ -156,10 +167,14 @@ public class BCHBORED001JobConfig {
                 BookInfo bookInfo = new BookInfo();
                 bookInfo.setAuthorId(authorId);
                 bookInfo.setCategory(categoryId);
+                bookInfo.setTag(sb.toString());
                 bookInfo.setDescription(item.getDescription());
                 bookInfo.setUpdId("SYSTEM");
                 bookInfo.setUpdTime(now);
 
+                bookInfoRepo.save(bookInfo);
+
+                sb.setLength(0);
             });
         };
     }
