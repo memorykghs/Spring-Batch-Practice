@@ -1,0 +1,10 @@
+spring: 
+  profiles:
+    active: local
+  datasource: 
+    driverClassName: oracle.jdbc.OracleDriver
+    url: jdbc:oracle:thin:@88.249.45.5:80/ORCLCDB.localdomain
+    username: STUDENT
+    password: CATHAYBK654321
+server:
+  port : 8080
