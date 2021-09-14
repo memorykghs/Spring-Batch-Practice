@@ -19,7 +19,6 @@ import spring.batch.springBatchPractice.entity.TagInfo;
 import spring.batch.springBatchPractice.entity.UserInfo;
 import spring.batch.springBatchPractice.exception.DataNotFoundException;
 import spring.batch.springBatchPractice.repository.AuthorInfoRepo;
-import spring.batch.springBatchPractice.repository.BookCommentRepo;
 import spring.batch.springBatchPractice.repository.BookInfoRepo;
 import spring.batch.springBatchPractice.repository.CategoryInfoRepo;
 import spring.batch.springBatchPractice.repository.TagInfoRepo;
@@ -35,10 +34,6 @@ public class BCHBORED001ItemWriter implements ItemWriter<BookInfoDto> {
     /** 書籍資料 Repo */
     @Autowired
     private BookInfoRepo bookInfoRepo;
-
-    /** 書籍評論 Repo */
-    @Autowired
-    private BookCommentRepo bookCommentRepo;
 
     /** 標籤屬性 Repo */
     @Autowired
@@ -108,7 +103,7 @@ public class BCHBORED001ItemWriter implements ItemWriter<BookInfoDto> {
 
             BookComment bookComment = new BookComment();
             bookComment.setBookInfo(bookInfo);
-            bookComment.setComment(comment);
+            bookComment.setComments(comment);
             bookComment.setUpdId(userInfo.getUserId());
             bookComment.setUpdTime(now);
             bookComment.setRecommend(Float.valueOf(item.getRecommend()));
@@ -118,6 +113,7 @@ public class BCHBORED001ItemWriter implements ItemWriter<BookInfoDto> {
 
             bookInfo.setBookComments(bookCommentSet);
             bookInfo.setAuthorId(authorInfo.getAuthorId());
+            bookInfo.setType("T00001");
             bookInfo.setCategory(categoryInfo.getCategoryId());
             bookInfo.setTag(sb.toString());
             bookInfo.setDescription(item.getDescription());

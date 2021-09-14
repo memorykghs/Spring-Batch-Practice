@@ -17,7 +17,7 @@ public class BookCommentPK implements Serializable {
     @Column(name = "UPD_TIME")
     private Timestamp updTime;
 
-    @Column(name = "USER_ID")
-    private String userId;
+    @Column(name = "UPD_ID")
+    private String updId;
 
 }

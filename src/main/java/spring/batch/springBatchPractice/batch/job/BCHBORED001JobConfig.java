@@ -46,9 +46,8 @@ public class BCHBORED001JobConfig {
     private static final int FETCH_SIZE = 10;
 
     @Bean
-    public Job fileReaderJob(@Qualifier("fileReaderJob")
-    Step step) {
-        return jobBuilderFactory.get("fileReaderJob")
+    public Job fileReaderJob(@Qualifier("fileReaderStep") Step step) {
+        return jobBuilderFactory.get("BCHBORED001Job")
                 .start(step)
                 .listener(new BCHBORED001JobListener())
                 .build();
@@ -62,7 +61,8 @@ public class BCHBORED001JobConfig {
      * @param jpaTransactionManager
      * @return
      */
-    @Bean("fileReaderStep")
+    @Bean
+    @Qualifier("fileReaderStep")
     private Step fileReaderStep(ItemReader<BookInfoDto> itemReader, ItemWriter<BookInfoDto> itemWriter,
             JpaTransactionManager jpaTransactionManager) {
         return stepBuilderFactory.get("BCH001Step1")
@@ -77,6 +77,16 @@ public class BCHBORED001JobConfig {
                 .listener(new BCHBORED001WriterListener())
                 .build();
     }
+    
+    /**
+     * Step Transaction
+     * @return
+     */
+    @Bean
+    public JpaTransactionManager jpaTransactionManager() {
+        final JpaTransactionManager transactionManager = new JpaTransactionManager();
+        return transactionManager;
+    }
 
     /**
      * 建立 FileReader
@@ -85,7 +95,8 @@ public class BCHBORED001JobConfig {
     @Bean
     public ItemReader<BookInfoDto> getItemReader() {
         return new FlatFileItemReaderBuilder<BookInfoDto>().name("fileItemReader")
-                .resource(new ClassPathResource("/excel/書單.csv"))
+                .resource(new ClassPathResource("excel/書單.csv"))
+                .encoding("UTF-8")
                 .linesToSkip(1)
                 .lineMapper(getBookInfoLineMapper())
                 .build();

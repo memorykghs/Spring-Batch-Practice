@@ -9,11 +9,10 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
-import lombok.ToString;
 
 @Data
 @Entity
@@ -23,9 +22,8 @@ public class BookComment implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "BOOK_ID")
-    @ToString.Exclude
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "BOOK_ID", referencedColumnName = "BOOK_ID")
     private BookInfo bookInfo;
 
     @Id
@@ -36,8 +34,8 @@ public class BookComment implements Serializable {
     @Column(name = "UPD_ID")
     private String updId;
 
-    @Column(name = "COMMENT")
-    private String comment;
+    @Column(name = "COMMENTS")
+    private String comments;
 
     @Column(name = "RECOMMEND")
     private float recommend;
