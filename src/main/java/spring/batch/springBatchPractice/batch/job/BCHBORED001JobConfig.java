@@ -46,7 +46,7 @@ public class BCHBORED001JobConfig {
     private static final int FETCH_SIZE = 10;
 
     @Bean
-    public Job fileReaderJob(@Qualifier("fileReaderStep") Step step) {
+    public Job fileReaderJob(@Qualifier("BCHBORED001Step") Step step) {
         return jobBuilderFactory.get("BCHBORED001Job")
                 .start(step)
                 .listener(new BCHBORED001JobListener())
@@ -62,10 +62,10 @@ public class BCHBORED001JobConfig {
      * @return
      */
     @Bean
-    @Qualifier("fileReaderStep")
+    @Qualifier("BCHBORED001Step")
     private Step fileReaderStep(ItemReader<BookInfoDto> itemReader, ItemWriter<BookInfoDto> itemWriter,
             JpaTransactionManager jpaTransactionManager) {
-        return stepBuilderFactory.get("BCH001Step1")
+        return stepBuilderFactory.get("BCHBORED001Step")
                 .transactionManager(jpaTransactionManager)
                 .<BookInfoDto, BookInfoDto> chunk(FETCH_SIZE)
                 .reader(itemReader).faultTolerant()
@@ -77,7 +77,7 @@ public class BCHBORED001JobConfig {
                 .listener(new BCHBORED001WriterListener())
                 .build();
     }
-    
+
     /**
      * Step Transaction
      * @return
