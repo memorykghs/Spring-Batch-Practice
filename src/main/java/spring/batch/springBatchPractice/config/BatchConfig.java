@@ -9,6 +9,7 @@ import org.springframework.batch.core.configuration.support.GenericApplicationCo
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import spring.batch.springBatchPractice.batch.job.BCHAGGRE001JobConfig;
 import spring.batch.springBatchPractice.batch.job.BCHBORED001JobConfig;
 
 /**
@@ -25,6 +26,6 @@ public class BatchConfig extends DefaultBatchConfigurer {
 
     @Bean
     public ApplicationContextFactory getJobContext() {
-        return new GenericApplicationContextFactory(BCHBORED001JobConfig.class);
+        return new GenericApplicationContextFactory(BCHBORED001JobConfig.class, BCHAGGRE001JobConfig.class);
     }
 }

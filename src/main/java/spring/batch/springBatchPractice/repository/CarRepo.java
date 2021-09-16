@@ -11,6 +11,6 @@ import spring.batch.springBatchPractice.entity.Car;
 public interface CarRepo extends JpaRepository<Car, String> {
 
     /** 查詢全部，依PK欄位排序 */
-    List<Car> findAllOrderByManufacturerAndType();
+    List<Car> findAllByOrderByManufacturerAscTypeAsc();
 
 }
