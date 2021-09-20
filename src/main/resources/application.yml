@@ -2,9 +2,16 @@ spring:
   profiles:
     active: local
   datasource: 
-    driverClassName: oracle.jdbc.OracleDriver
-    url: jdbc:oracle:thin:@88.249.45.5:80/ORCLCDB.localdomain
-    username: STUDENT
-    password: CATHAYBK654321
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/Ashley
+    username: 
+    password: 
+  jpa:
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+
 server:
   port : 8080

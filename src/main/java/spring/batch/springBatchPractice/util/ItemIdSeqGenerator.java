@@ -14,7 +14,7 @@ import org.hibernate.service.ServiceRegistry;
 import org.hibernate.type.LongType;
 import org.hibernate.type.Type;
 
-public class BookIdSeqGenerator extends SequenceStyleGenerator {
+public class ItemIdSeqGenerator extends SequenceStyleGenerator {
 
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 

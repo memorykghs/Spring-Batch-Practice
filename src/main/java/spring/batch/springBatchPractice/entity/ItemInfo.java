@@ -22,29 +22,29 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import spring.batch.springBatchPractice.util.BookIdSeqGenerator;
+import spring.batch.springBatchPractice.util.ItemIdSeqGenerator;
 
 @Data
 @Entity
 @Table(name = "BOOK_INFO")
-public class BookInfo implements Serializable {
+public class ItemInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "bookInfo")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "itemInfo")
     @JsonIgnore
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private Set<BookComment> bookComments;
+    private Set<ItemComment> bookComments;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BOOK_SEQ")
-    @GenericGenerator(name = "BOOK_SEQ", strategy = "spring.batch.springBatchPractice.util.BookIdSeqGenerator", parameters = {
-            @Parameter(name = BookIdSeqGenerator.INCREMENT_PARAM, value = "1"),
-            @Parameter(name = BookIdSeqGenerator.VALUE_PREFIX_PARAMETER, value = "B"),
-            @Parameter(name = BookIdSeqGenerator.NUMBER_FORMAT_PARAMETER, value = "%03d") })
-    @Column(name = "BOOK_ID")
-    private String bookId;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ITEM_SEQ")
+    @GenericGenerator(name = "ITEM_SEQ", strategy = "spring.batch.springBatchPractice.util.ItemIdSeqGenerator", parameters = {
+            @Parameter(name = ItemIdSeqGenerator.INCREMENT_PARAM, value = "1"),
+            @Parameter(name = ItemIdSeqGenerator.VALUE_PREFIX_PARAMETER, value = "I"),
+            @Parameter(name = ItemIdSeqGenerator.NUMBER_FORMAT_PARAMETER, value = "%03d") })
+    @Column(name = "ITEM_ID")
+    private String itemId;
 
     @Column(name = "AUTHOR_ID")
     private String authorId;

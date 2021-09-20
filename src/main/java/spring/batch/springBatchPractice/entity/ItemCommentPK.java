@@ -10,7 +10,7 @@ import lombok.Data;
 
 @Embeddable
 @Data
-public class BookCommentPK implements Serializable {
+public class ItemCommentPK implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

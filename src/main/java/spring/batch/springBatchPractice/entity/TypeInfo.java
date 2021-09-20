@@ -23,8 +23,8 @@ public class TypeInfo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "DEFAULT_SEQ")
-    @GenericGenerator(name = "DEFAULT_SEQ", strategy = "spring.batch.springBatchPractice.util.DefaultIdSeqGenerator", parameters = {
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TYPE_SEQ")
+    @GenericGenerator(name = "TYPE_SEQ", strategy = "spring.batch.springBatchPractice.util.DefaultIdSeqGenerator", parameters = {
             @Parameter(name = DefaultIdSeqGenerator.INCREMENT_PARAM, value = "1"),
             @Parameter(name = DefaultIdSeqGenerator.VALUE_PREFIX_PARAMETER, value = "T"),
             @Parameter(name = DefaultIdSeqGenerator.NUMBER_FORMAT_PARAMETER, value = "%05d") })

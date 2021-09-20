@@ -27,7 +27,7 @@ public class SpringBatchPracticeApplication {
             JobInstanceAlreadyCompleteException, JobParametersInvalidException {
         try {
 //            String jobName = args[0];
-            String jobName = "BCHAGGRE001Job";
+            String jobName = "BCHBORED001Job";
 
             ConfigurableApplicationContext context = SpringApplication.run(SpringBatchPracticeApplication.class, args);
             Job job = context.getBean(JobRegistry.class).getJob(jobName);

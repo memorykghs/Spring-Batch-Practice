@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 
 import spring.batch.springBatchPractice.dto.BookInfoDto;
 import spring.batch.springBatchPractice.entity.AuthorInfo;
-import spring.batch.springBatchPractice.entity.BookComment;
-import spring.batch.springBatchPractice.entity.BookInfo;
+import spring.batch.springBatchPractice.entity.ItemComment;
+import spring.batch.springBatchPractice.entity.ItemInfo;
 import spring.batch.springBatchPractice.entity.CategoryInfo;
 import spring.batch.springBatchPractice.entity.TagInfo;
 import spring.batch.springBatchPractice.entity.UserInfo;
@@ -76,9 +76,10 @@ public class BCHBORED001ItemWriter implements ItemWriter<BookInfoDto> {
 
             // 3. 比對資料類別(懸疑、驚悚等)
             String category = item.getCategory();
-            CategoryInfo categoryInfo = categoryInfoRepo.findByName(category).orElse(new CategoryInfo());
+            CategoryInfo categoryInfo = categoryInfoRepo.findBySubName(category).orElse(new CategoryInfo());
             if (categoryInfo.getCategoryId() == null) {
-                categoryInfo.setName(category);
+            	categoryInfo.setMainName("test");
+                categoryInfo.setSubName(category);
                 categoryInfoRepo.saveAndFlush(categoryInfo);
             }
 
@@ -96,31 +97,30 @@ public class BCHBORED001ItemWriter implements ItemWriter<BookInfoDto> {
             });
 
             // 5. 寫入BookInfo、BookComment
-            BookInfo bookInfo = new BookInfo();
+            ItemInfo itemInfo = new ItemInfo();
 
             String comment1 = item.getComment1();
-            String comment = comment1 != null ? comment1 : item.getComment2();
+            String comments = comment1 != null ? comment1 : item.getComment2();
 
-            BookComment bookComment = new BookComment();
-            bookComment.setBookInfo(bookInfo);
-            bookComment.setComments(comment);
+            ItemComment bookComment = new ItemComment();
+            bookComment.setItemInfo(itemInfo);
+            bookComment.setComments(comments);
             bookComment.setUpdId(userInfo.getUserId());
             bookComment.setUpdTime(now);
-            bookComment.setRecommend(Float.valueOf(item.getRecommend()));
 
-            Set<BookComment> bookCommentSet = new HashSet<>();
+            Set<ItemComment> bookCommentSet = new HashSet<>();
             bookCommentSet.add(bookComment);
 
-            bookInfo.setBookComments(bookCommentSet);
-            bookInfo.setAuthorId(authorInfo.getAuthorId());
-            bookInfo.setType("T00001");
-            bookInfo.setCategory(categoryInfo.getCategoryId());
-            bookInfo.setTag(sb.toString());
-            bookInfo.setDescription(item.getDescription());
-            bookInfo.setUpdId(userInfo.getUserId());
-            bookInfo.setUpdTime(now);
+            itemInfo.setBookComments(bookCommentSet);
+            itemInfo.setAuthorId(authorInfo.getAuthorId());
+            itemInfo.setType("T00001");
+            itemInfo.setCategory(categoryInfo.getCategoryId());
+            itemInfo.setTag(sb.toString());
+            itemInfo.setDescription(item.getDescription());
+            itemInfo.setUpdId(userInfo.getUserId());
+            itemInfo.setUpdTime(now);
 
-            bookInfoRepo.save(bookInfo);
+            bookInfoRepo.save(itemInfo);
 
             sb.setLength(0);
         }

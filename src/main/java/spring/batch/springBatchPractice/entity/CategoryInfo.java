@@ -23,15 +23,18 @@ public class CategoryInfo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "DEFAULT_SEQ")
-    @GenericGenerator(name = "DEFAULT_SEQ", strategy = "spring.batch.springBatchPractice.util.DefaultIdSeqGenerator", parameters = {
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CAT_SEQ")
+    @GenericGenerator(name = "CAT_SEQ", strategy = "spring.batch.springBatchPractice.util.DefaultIdSeqGenerator", parameters = {
             @Parameter(name = DefaultIdSeqGenerator.INCREMENT_PARAM, value = "1"),
             @Parameter(name = DefaultIdSeqGenerator.VALUE_PREFIX_PARAMETER, value = "C"),
             @Parameter(name = DefaultIdSeqGenerator.NUMBER_FORMAT_PARAMETER, value = "%05d") })
     @Column(name = "CATEGORY_ID")
     private String categoryId;
 
-    @Column(name = "NAME")
-    private String name;
+    @Column(name = "MAIN_NAME")
+    private String mainName;
+    
+    @Column(name = "SUB_NAME")
+    private String subName;
 
 }

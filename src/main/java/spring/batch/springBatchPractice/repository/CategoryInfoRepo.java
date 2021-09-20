@@ -11,6 +11,6 @@ import spring.batch.springBatchPractice.entity.CategoryInfo;
 public interface CategoryInfoRepo extends JpaRepository<CategoryInfo, String> {
 
     /** 依類別名稱查詢 */
-    Optional<CategoryInfo> findByName(String category);
+    Optional<CategoryInfo> findBySubName(String category);
 
 }
