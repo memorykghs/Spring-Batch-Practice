@@ -21,7 +21,7 @@ import spring.batch.springBatchPractice.batch.listener.BCHBORED001JobListener;
 import spring.batch.springBatchPractice.batch.listener.BCHBORED001ReaderListener;
 import spring.batch.springBatchPractice.batch.listener.BCHBORED001StepListener;
 import spring.batch.springBatchPractice.batch.listener.BCHBORED001WriterListener;
-import spring.batch.springBatchPractice.dto.BookInfoDto;
+import spring.batch.springBatchPractice.dto.ItemInfoDto;
 
 /**
  * BCHBORED001 Job Config
@@ -39,11 +39,11 @@ public class BCHBORED001JobConfig {
     private StepBuilderFactory stepBuilderFactory;
 
     /** Mapping 欄位名稱 */
-    private static final String[] MAPPER_FIELD = new String[] { "BookName", "Author", "Category", "Tags", "Recommend", "Description",
+    private static final String[] MAPPER_FIELD = new String[] { "ItemName", "Author", "Category", "Tags", "Recommend", "Description",
             "Comment1", "Comment2", "UpdDate", "UpdName" };
 
     /** 每批件數 */
-    private static final int FETCH_SIZE = 10;
+    private static final int FETCH_SIZE = 1;
 
     @Bean
     public Job fileReaderJob(@Qualifier("BCHBORED001Step") Step step) {
@@ -63,14 +63,16 @@ public class BCHBORED001JobConfig {
      */
     @Bean
     @Qualifier("BCHBORED001Step")
-    private Step fileReaderStep(ItemReader<BookInfoDto> itemReader, ItemWriter<BookInfoDto> itemWriter,
+    private Step fileReaderStep(ItemReader<ItemInfoDto> itemReader, ItemWriter<ItemInfoDto> itemWriter,
             JpaTransactionManager jpaTransactionManager) {
-        return stepBuilderFactory.get("BCHBORED001Step")
+
+    	return stepBuilderFactory.get("BCHBORED001Step")
                 .transactionManager(jpaTransactionManager)
-                .<BookInfoDto, BookInfoDto> chunk(FETCH_SIZE)
-                .reader(itemReader).faultTolerant()
-                .skip(Exception.class)
-                .skipLimit(Integer.MAX_VALUE)
+                .<ItemInfoDto, ItemInfoDto> chunk(FETCH_SIZE)
+                .reader(itemReader)
+                .faultTolerant()
+//                .skip(Exception.class)
+//                .skipLimit(Integer.MAX_VALUE)
                 .writer(itemWriter)
                 .listener(new BCHBORED001StepListener())
                 .listener(new BCHBORED001ReaderListener())
@@ -93,8 +95,8 @@ public class BCHBORED001JobConfig {
      * @return
      */
     @Bean
-    public ItemReader<BookInfoDto> getItemReader() {
-        return new FlatFileItemReaderBuilder<BookInfoDto>().name("fileItemReader")
+    public ItemReader<ItemInfoDto> getItemReader() {
+        return new FlatFileItemReaderBuilder<ItemInfoDto>().name("fileItemReader")
                 .resource(new ClassPathResource("excel/書單.csv"))
                 .encoding("UTF-8")
                 .linesToSkip(1)
@@ -106,8 +108,8 @@ public class BCHBORED001JobConfig {
      * 建立 FileReader mapping 規則
      * @return
      */
-    private LineMapper<BookInfoDto> getBookInfoLineMapper() {
-        DefaultLineMapper<BookInfoDto> bookInfoLineMapper = new DefaultLineMapper<>();
+    private LineMapper<ItemInfoDto> getBookInfoLineMapper() {
+        DefaultLineMapper<ItemInfoDto> bookInfoLineMapper = new DefaultLineMapper<>();
 
         // 1. 設定每一筆資料的欄位拆分規則，預設以逗號拆分
         DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
@@ -141,8 +143,8 @@ public class BCHBORED001JobConfig {
         //            return bookInfDto;
         //        };
 
-        BeanWrapperFieldSetMapper<BookInfoDto> fieldSetMapper = new BeanWrapperFieldSetMapper<>();
-        fieldSetMapper.setTargetType(BookInfoDto.class);
+        BeanWrapperFieldSetMapper<ItemInfoDto> fieldSetMapper = new BeanWrapperFieldSetMapper<>();
+        fieldSetMapper.setTargetType(ItemInfoDto.class);
 
         bookInfoLineMapper.setLineTokenizer(tokenizer);
         bookInfoLineMapper.setFieldSetMapper(fieldSetMapper);

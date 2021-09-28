@@ -4,21 +4,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ItemReadListener;
 
-import spring.batch.springBatchPractice.dto.BookInfoDto;
+import spring.batch.springBatchPractice.dto.ItemInfoDto;
 
-public class BCHBORED001ReaderListener implements ItemReadListener<BookInfoDto> {
+public class BCHBORED001ReaderListener implements ItemReadListener<ItemInfoDto> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BCHBORED001ReaderListener.class);
 
     @Override
     public void beforeRead() {
-        // Do nothing
+    	LOGGER.info("BCHBORED001: 讀取資料開始");
 
     }
 
     @Override
-    public void afterRead(BookInfoDto item) {
-        // Do nothing
+    public void afterRead(ItemInfoDto item) {
+    	System.out.println("==========> " + item.getItemName());
 
     }
 

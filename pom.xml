@@ -68,11 +68,11 @@
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.springframework.batch/spring-batch-samples -->
-	<!-- <dependency> -->
-	<!-- <groupId>org.springframework.batch</groupId> -->
-	<!-- <artifactId>spring-batch-samples</artifactId> -->
-	<!-- <version>1.1.3.RELEASE</version> -->
-	<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.springframework.batch</groupId> -->
+		<!-- <artifactId>spring-batch-samples</artifactId> -->
+		<!-- <version>1.1.3.RELEASE</version> -->
+		<!-- </dependency> -->
 		<!-- spring-tx (for Quartz用) -->
 		<!-- Transaction 事務 -->
 		<dependency>
@@ -83,6 +83,12 @@
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
 			<artifactId>quartz</artifactId>
+		</dependency>
+
+		<!-- commons-lang3 -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
 		</dependency>
 
 	</dependencies>

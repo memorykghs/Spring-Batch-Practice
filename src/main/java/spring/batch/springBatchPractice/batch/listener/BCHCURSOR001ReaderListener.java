@@ -4,9 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ItemReadListener;
 
-import spring.batch.springBatchPractice.dto.BookInfoDto;
+import spring.batch.springBatchPractice.dto.ItemInfoDto;
 
-public class BCHCURSOR001ReaderListener implements ItemReadListener<BookInfoDto> {
+public class BCHCURSOR001ReaderListener implements ItemReadListener<ItemInfoDto> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BCHCURSOR001ReaderListener.class);
 
@@ -17,7 +17,7 @@ public class BCHCURSOR001ReaderListener implements ItemReadListener<BookInfoDto>
     }
 
     @Override
-    public void afterRead(BookInfoDto item) {
+    public void afterRead(ItemInfoDto item) {
         // Do nothing
 
     }

@@ -9,7 +9,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -26,7 +25,7 @@ import spring.batch.springBatchPractice.util.ItemIdSeqGenerator;
 
 @Data
 @Entity
-@Table(name = "BOOK_INFO")
+@Table(name = "ITEM_INFO")
 public class ItemInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,13 +37,14 @@ public class ItemInfo implements Serializable {
     private Set<ItemComment> bookComments;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ITEM_SEQ")
-    @GenericGenerator(name = "ITEM_SEQ", strategy = "spring.batch.springBatchPractice.util.ItemIdSeqGenerator", parameters = {
-            @Parameter(name = ItemIdSeqGenerator.INCREMENT_PARAM, value = "1"),
-            @Parameter(name = ItemIdSeqGenerator.VALUE_PREFIX_PARAMETER, value = "I"),
-            @Parameter(name = ItemIdSeqGenerator.NUMBER_FORMAT_PARAMETER, value = "%03d") })
+    @GeneratedValue(generator = "custom_generator")
+    @GenericGenerator(name = "custom_generator", strategy = "spring.batch.springBatchPractice.util.ItemIdentifierGenerator", parameters = {
+            @Parameter(name = ItemIdSeqGenerator.VALUE_PREFIX_PARAMETER, value = "I")})
     @Column(name = "ITEM_ID")
     private String itemId;
+    
+    @Column(name = "ITEM_NAME")
+    private String itemName;
 
     @Column(name = "AUTHOR_ID")
     private String authorId;
@@ -55,14 +55,8 @@ public class ItemInfo implements Serializable {
     @Column(name = "CATEGORY")
     private String category;
 
-    @Column(name = "TAG")
-    private String tag;
-
     @Column(name = "DESCRIPTION")
     private String description;
-
-    @Column(name = "RECOMMEND")
-    private float recommend;
 
     @Column(name = "UPD_ID")
     private String updId;

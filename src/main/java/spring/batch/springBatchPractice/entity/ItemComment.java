@@ -16,7 +16,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "BOOK_COMMENT")
+@Table(name = "ITEM_COMMENT")
 @IdClass(value = ItemCommentPK.class)
 public class ItemComment implements Serializable {
 
