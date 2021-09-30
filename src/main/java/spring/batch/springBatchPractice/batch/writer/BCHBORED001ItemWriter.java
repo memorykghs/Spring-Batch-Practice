@@ -23,6 +23,7 @@ import spring.batch.springBatchPractice.exception.DataNotFoundException;
 import spring.batch.springBatchPractice.repository.AuthorInfoRepo;
 import spring.batch.springBatchPractice.repository.CategoryInfoRepo;
 import spring.batch.springBatchPractice.repository.ItemInfoRepo;
+import spring.batch.springBatchPractice.repository.ItemTagRepo;
 import spring.batch.springBatchPractice.repository.TagInfoRepo;
 import spring.batch.springBatchPractice.repository.UserInfoRepo;
 
@@ -34,9 +35,13 @@ import spring.batch.springBatchPractice.repository.UserInfoRepo;
 @Component
 public class BCHBORED001ItemWriter implements ItemWriter<ItemInfoDto> {
 
-	/** 書籍資料 Repo */
+	/** 作品資料 Repo */
 	@Autowired
 	private ItemInfoRepo bookInfoRepo;
+	
+	/** 作品標籤對應 Repo */
+	@Autowired
+	private ItemTagRepo itemTagRepo;
 
 	/** 標籤屬性 Repo */
 	@Autowired
@@ -125,6 +130,7 @@ public class BCHBORED001ItemWriter implements ItemWriter<ItemInfoDto> {
 				ItemTag itemTag = new ItemTag();
 				itemTag.setItemId(itemInfo.getItemId());
 				itemTag.setTagId(tagInfo.getTagId());
+				itemTagRepo.saveAndFlush(itemTag);
 			});
 		}
 	}

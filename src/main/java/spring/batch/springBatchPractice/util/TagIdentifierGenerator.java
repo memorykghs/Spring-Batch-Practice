@@ -13,6 +13,7 @@ import org.hibernate.id.IdentifierGenerator;
 
 /**
  * 自訂 CategoryInfo 序號產生
+ * 
  * @author memorykghs
  */
 public class TagIdentifierGenerator implements IdentifierGenerator {
@@ -31,13 +32,16 @@ public class TagIdentifierGenerator implements IdentifierGenerator {
 
 			if (rs.next()) {
 
-				int id = rs.getInt(1) + 1;
+				int id = rs.getRow() + 1;
 				String seq = StringUtils.leftPad(String.valueOf(id), 5, "0");
 				String genId = valuePrefix + seq;
 
 				System.out.println("Generated Stock Code: " + genId);
 				return genId;
 			}
+
+			session.close();
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

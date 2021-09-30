@@ -9,19 +9,25 @@ import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.JobParametersInvalidException;
 import org.springframework.batch.core.configuration.JobRegistry;
+import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.NoSuchJobException;
 import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.batch.core.repository.JobRestartException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
+@EnableBatchProcessing
 public class SpringBatchPracticeApplication {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SpringBatchPracticeApplication.class);
+    
+    @Autowired
+    private Job BCHBORED001Job;
 
     public static void main(String[] args) throws NoSuchJobException, JobExecutionAlreadyRunningException, JobRestartException,
             JobInstanceAlreadyCompleteException, JobParametersInvalidException {
@@ -29,9 +35,10 @@ public class SpringBatchPracticeApplication {
 //            String jobName = args[0];
             String jobName = "BCHBORED001Job";
 
-            ConfigurableApplicationContext context = SpringApplication.run(SpringBatchPracticeApplication.class, args);
-            Job job = context.getBean(JobRegistry.class).getJob(jobName);
-            context.getBean(JobLauncher.class).run(job, createJobParams());
+            SpringApplication.run(SpringBatchPracticeApplication.class, args);
+//            ConfigurableApplicationContext context = SpringApplication.run(SpringBatchPracticeApplication.class, args);
+//            Job job = context.getBean(JobRegistry.class).getJob(jobName);
+//            context.getBean(JobLauncher.class).run(job, createJobParams());
 
         } catch (Exception e) {
             LOGGER.error("springBatchPractice執行失敗", e);

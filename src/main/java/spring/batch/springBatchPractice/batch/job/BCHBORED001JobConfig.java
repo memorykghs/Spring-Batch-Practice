@@ -14,6 +14,7 @@ import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 
@@ -28,6 +29,7 @@ import spring.batch.springBatchPractice.dto.ItemInfoDto;
  * 讀取 csv 檔案 Job
  * @author memorykghs
  */
+@Configuration
 public class BCHBORED001JobConfig {
 
     /** JobBuilderFactory */
@@ -63,7 +65,7 @@ public class BCHBORED001JobConfig {
      */
     @Bean
     @Qualifier("BCHBORED001Step")
-    private Step fileReaderStep(ItemReader<ItemInfoDto> itemReader, ItemWriter<ItemInfoDto> itemWriter,
+    public Step fileReaderStep(ItemReader<ItemInfoDto> itemReader, ItemWriter<ItemInfoDto> itemWriter,
             JpaTransactionManager jpaTransactionManager) {
 
     	return stepBuilderFactory.get("BCHBORED001Step")
