@@ -124,7 +124,8 @@ public class BCHBORED001ItemWriter implements ItemWriter<ItemInfoDto> {
 
 				if (tagInfo.getTagId() == null) {
 					tagInfo.setName(tag);
-					tagInfoRepo.saveAndFlush(tagInfo);
+//					tagInfoRepo.saveAndFlush(tagInfo);
+					tagInfoRepo.save(tagInfo);
 				}
 
 				ItemTag itemTag = new ItemTag();

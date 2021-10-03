@@ -15,17 +15,17 @@ import spring.batch.springBatchPractice.batch.job.BCHBORED001JobConfig;
  * Batch Config
  * @author memorykghs
  */
-//@Configuration
+@Configuration
 //@EnableBatchProcessing(modular = true)
-//public class BatchConfig extends DefaultBatchConfigurer {
-//    @Override
-//    public void setDataSource(DataSource dataSource) {
-//        // 讓Spring Batch自動產生的table不寫入DB
-//    }
-//
-//    @Bean
-//    public ApplicationContextFactory getJobContext() {
-////        return new GenericApplicationContextFactory(BCHBORED001JobConfig.class, BCHAGGRE001JobConfig.class);
-//        return new GenericApplicationContextFactory(BCHBORED001JobConfig.class);
-//    }
-//}
+public class BatchConfig extends DefaultBatchConfigurer {
+    @Override
+    public void setDataSource(DataSource dataSource) {
+        // 讓Spring Batch自動產生的table不寫入DB
+    }
+
+    @Bean
+    public ApplicationContextFactory getJobContext() {
+//        return new GenericApplicationContextFactory(BCHBORED001JobConfig.class, BCHAGGRE001JobConfig.class);
+        return new GenericApplicationContextFactory(BCHBORED001JobConfig.class);
+    }
+}

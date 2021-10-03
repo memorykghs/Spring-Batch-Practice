@@ -7,6 +7,6 @@ import spring.batch.springBatchPractice.entity.ItemComment;
 import spring.batch.springBatchPractice.entity.ItemCommentPK;
 
 @Repository
-public interface BookCommentRepo extends JpaRepository<ItemComment, ItemCommentPK>{
+public interface ItemCommentRepo extends JpaRepository<ItemComment, ItemCommentPK>{
 
 }

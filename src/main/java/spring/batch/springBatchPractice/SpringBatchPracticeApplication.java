@@ -25,9 +25,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class SpringBatchPracticeApplication {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SpringBatchPracticeApplication.class);
-    
-    @Autowired
-    private Job BCHBORED001Job;
 
     public static void main(String[] args) throws NoSuchJobException, JobExecutionAlreadyRunningException, JobRestartException,
             JobInstanceAlreadyCompleteException, JobParametersInvalidException {
@@ -36,9 +33,9 @@ public class SpringBatchPracticeApplication {
             String jobName = "BCHBORED001Job";
 
             SpringApplication.run(SpringBatchPracticeApplication.class, args);
-//            ConfigurableApplicationContext context = SpringApplication.run(SpringBatchPracticeApplication.class, args);
-//            Job job = context.getBean(JobRegistry.class).getJob(jobName);
-//            context.getBean(JobLauncher.class).run(job, createJobParams());
+            ConfigurableApplicationContext context = SpringApplication.run(SpringBatchPracticeApplication.class, args);
+            Job job = context.getBean(JobRegistry.class).getJob(jobName);
+            context.getBean(JobLauncher.class).run(job, createJobParams());
 
         } catch (Exception e) {
             LOGGER.error("springBatchPractice執行失敗", e);

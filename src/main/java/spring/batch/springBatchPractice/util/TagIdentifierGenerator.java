@@ -39,12 +39,10 @@ public class TagIdentifierGenerator implements IdentifierGenerator {
 				System.out.println("Generated Stock Code: " + genId);
 				return genId;
 			}
-
-			session.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
 		return null;
 	}
 
