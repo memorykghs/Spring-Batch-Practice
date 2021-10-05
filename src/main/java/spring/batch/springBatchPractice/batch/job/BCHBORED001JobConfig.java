@@ -29,7 +29,7 @@ import spring.batch.springBatchPractice.dto.ItemInfoDto;
  * 讀取 csv 檔案 Job
  * @author memorykghs
  */
-@Configuration
+//@Configuration
 public class BCHBORED001JobConfig {
 
     /** JobBuilderFactory */
@@ -47,7 +47,7 @@ public class BCHBORED001JobConfig {
     /** 每批件數 */
     private static final int FETCH_SIZE = 1;
 
-    @Bean
+    @Bean("BCHBORED001Job")
     public Job fileReaderJob(@Qualifier("BCHBORED001Step") Step step) {
         return jobBuilderFactory.get("BCHBORED001Job")
                 .start(step)

@@ -34,7 +34,7 @@ public class ItemInfo implements Serializable {
     @JsonIgnore
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private Set<ItemComment> bookComments;
+    private Set<ItemTag> itemTagSet;
 
     @Id
     @GeneratedValue(generator = "custom_generator")

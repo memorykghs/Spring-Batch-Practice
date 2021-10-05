@@ -2,9 +2,9 @@ package spring.batch.springBatchPractice.batch.writer;
 
 import org.springframework.batch.item.file.FlatFileItemWriter;
 
-import spring.batch.springBatchPractice.entity.Car;
+import spring.batch.springBatchPractice.entity.ItemComment;
 
-public class BCGAGGRE001ItemWriter extends FlatFileItemWriter<Car>{
+public class BCGAGGRE001ItemWriter extends FlatFileItemWriter<ItemComment>{
     
 
 }

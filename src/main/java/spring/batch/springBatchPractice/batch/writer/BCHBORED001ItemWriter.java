@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.batch.item.ItemWriter;
@@ -23,7 +24,6 @@ import spring.batch.springBatchPractice.exception.DataNotFoundException;
 import spring.batch.springBatchPractice.repository.AuthorInfoRepo;
 import spring.batch.springBatchPractice.repository.CategoryInfoRepo;
 import spring.batch.springBatchPractice.repository.ItemInfoRepo;
-import spring.batch.springBatchPractice.repository.ItemTagRepo;
 import spring.batch.springBatchPractice.repository.TagInfoRepo;
 import spring.batch.springBatchPractice.repository.UserInfoRepo;
 
@@ -38,10 +38,6 @@ public class BCHBORED001ItemWriter implements ItemWriter<ItemInfoDto> {
 	/** 作品資料 Repo */
 	@Autowired
 	private ItemInfoRepo bookInfoRepo;
-	
-	/** 作品標籤對應 Repo */
-	@Autowired
-	private ItemTagRepo itemTagRepo;
 
 	/** 標籤屬性 Repo */
 	@Autowired
@@ -90,22 +86,37 @@ public class BCHBORED001ItemWriter implements ItemWriter<ItemInfoDto> {
 				categoryInfoRepo.saveAndFlush(categoryInfo);
 			}
 
-			// 4. 寫入BookInfo、BookComment
+			// 4. 處理標籤資訊
 			ItemInfo itemInfo = new ItemInfo();
-			String comment1 = item.getComment1();
-			String comments = comment1 != null ? comment1 : item.getComment2();
+			Set<ItemTag> itemTagSet = new HashSet<>();
 
-			ItemComment bookComment = new ItemComment();
-			bookComment.setItemInfo(itemInfo);
-			bookComment.setComments(comments);
-			bookComment.setUpdId(userInfo.getUserId());
-			bookComment.setUpdTime(now);
+			List<String> tagList = new ArrayList<>(Arrays.asList(item.getTags().split("#")));
+			tagList.remove(0);
+			tagList.stream().forEach(tag -> {
+//				TagInfo tagInfo = tagInfoRepo.findByName(tag).orElse(new TagInfo());
+				Optional<TagInfo> optional = tagInfoRepo.findByName(tag);
+				if (!optional.isPresent()) {
+					TagInfo tagInfo = new TagInfo();
+					tagInfo.setName(tag);
+					tagInfoRepo.save(tagInfo);
+					System.out.println("==========> " + tagInfo);
+					ItemTag itemTag = new ItemTag();
+					itemTag.setItemInfo(itemInfo);
+					itemTag.setTagId(tagInfo.getTagId());
+					itemTagSet.add(itemTag);
+				}
 
-			Set<ItemComment> bookCommentSet = new HashSet<>();
-			bookCommentSet.add(bookComment);
+//				if (tagInfo.getTagId() == null) {
+//					tagInfo.setName(tag);
+//					// tagInfoRepo.saveAndFlush(tagInfo);
+//					tagInfoRepo.save(tagInfo);
+//				}
 
+			});
+
+			// 5. 寫入ItemInfo
+			itemInfo.setItemTagSet(itemTagSet);
 			itemInfo.setItemName(item.getItemName());
-			itemInfo.setBookComments(bookCommentSet);
 			itemInfo.setAuthorId(authorInfo.getAuthorId());
 			itemInfo.setType("T00001");
 			itemInfo.setCategory(categoryInfo.getCategoryId());
@@ -115,24 +126,15 @@ public class BCHBORED001ItemWriter implements ItemWriter<ItemInfoDto> {
 
 			bookInfoRepo.save(itemInfo);
 
-			// 5. 處理標籤資訊
-			List<String> tagList = new ArrayList<>(Arrays.asList(item.getTags().split("#")));
-			tagList.remove(0);
-			tagList.stream().forEach(tag -> {
-				TagInfo tagInfo = tagInfoRepo.findByName(tag).orElse(new TagInfo());
-				System.out.println("==========> " + tagInfo);
+			// 5. 寫入ItemComment
+			String comment1 = item.getComment1();
+			String comments = comment1 != null ? comment1 : item.getComment2();
+			ItemComment itemComment = new ItemComment();
+			itemComment.setItemId(itemInfo.getItemId());
+			itemComment.setComments(comments);
+			itemComment.setUpdId(userInfo.getUserId());
+			itemComment.setUpdTime(now);
 
-				if (tagInfo.getTagId() == null) {
-					tagInfo.setName(tag);
-//					tagInfoRepo.saveAndFlush(tagInfo);
-					tagInfoRepo.save(tagInfo);
-				}
-
-				ItemTag itemTag = new ItemTag();
-				itemTag.setItemId(itemInfo.getItemId());
-				itemTag.setTagId(tagInfo.getTagId());
-				itemTagRepo.saveAndFlush(itemTag);
-			});
 		}
 	}
 }
